@@ -12,10 +12,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-
-                 withSonarQubeEnv('sonar') {
-                   sh 'mvn clean package sonar:sonar'
-                 }
+                    bat './gradlew sonarqube'
                 }
             }
         }
@@ -24,8 +21,8 @@ pipeline {
             steps {
                 script {
                      timeout(time: 1, unit: 'HOURS') {
-                                    waitForQualityGate abortPipeline: true
-                                  }
+                        waitForQualityGate abortPipeline: true
+                                                      }
                 }
             }
         }
