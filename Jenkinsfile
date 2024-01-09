@@ -8,6 +8,7 @@ pipeline {
                     bat './gradlew test'
                     archiveArtifacts 'build/libs/*.jar'
                     bat './gradlew javadoc'
+                    bat './gradlew cucumber'
                     junit 'build/test-results/test/*.xml'
                 }
             }
