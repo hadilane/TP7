@@ -75,6 +75,21 @@ public class Matrix {
 		}
 		return mat;
 	}
+	@Override
+	public int hashCode() {
+		int result = 17; // Choose a prime number as the initial value
+		result = 31 * result + nrows; // Use prime number 31 for combining hash codes
+		result = 31 * result + ncols;
+
+		// Combine hash codes for each element in the matrix
+		for (int i = 0; i < nrows; i++) {
+			for (int j = 0; j < ncols; j++) {
+				result = 31 * result + Double.hashCode(getValueAt(i, j));
+			}
+		}
+
+		return result;
+	}
 
 
 	@Override
