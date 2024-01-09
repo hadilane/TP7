@@ -12,7 +12,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                  withSonarQubeEnv('sonar') {
-                                sh './gradlew sonar'
+                                bat './gradlew sonar'
                               }
             }
         }
@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy to MyMavenRepo') {
             steps {
                 script {
-                    sh 'mvn deploy'
+                    bat 'mvn deploy'
                 }
             }
         }
@@ -52,7 +52,7 @@ pipeline {
                     // Use the NOTIFY_EVENTS_TOKEN credential
                     withCredentials([string(credentialsId: 'NOTIFY_EVENTS_TOKEN', variable: 'NOTIFY_EVENTS_TOKEN')]) {
                         // Send notification to Notify.Events
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '{\"token\": \"jvcnkjixbz5uxg3qjqlh35cbopeipavr\", \"message\": \"Deployment\"}' https://api.notify.events/v1/send"
+                       bat "curl -X POST -H 'Content-Type: application/json' -d '{\"token\": \"jvcnkjixbz5uxg3qjqlh35cbopeipavr\", \"message\": \"Deployment\"}' https://api.notify.events/v1/send"
                     }
                 }
             }
@@ -71,10 +71,10 @@ pipeline {
                 slackSend(color: 'good', message: 'Deployment successful')
 
                 // Signal notification
-                sh "signal-cli -u 0540446365 send -m 'Deployment successful'"
+                bat "signal-cli -u 0540446365 send -m 'Deployment successful'"
 
                 // Trigger success notification to Chrome
-                sh "curl -X POST http://localhost:8080/jenkins-notifier/notify?status=success"
+                bat "curl -X POST http://localhost:8080/jenkins-notifier/notify?status=success"
             }
         }
         failure {
