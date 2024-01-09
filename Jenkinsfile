@@ -12,7 +12,10 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 script {
-                    bat './gradlew sonarqube'
+
+                 withSonarQubeEnv('sonar') {
+                   sh 'mvn clean package sonar:sonar'
+                 }
                 }
             }
         }
@@ -20,11 +23,9 @@ pipeline {
         stage('Code Quality') {
             steps {
                 script {
-                    def qualityGateStatus = sh(script: './gradlew checkQualityGate', returnStatus: true)
-
-                    if (qualityGateStatus != 0) {
-                        error "Quality Gates check failed. Pipeline aborted."
-                    }
+                     timeout(time: 1, unit: 'HOURS') {
+                                    waitForQualityGate abortPipeline: true
+                                  }
                 }
             }
         }
