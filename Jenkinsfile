@@ -45,10 +45,10 @@ pipeline {
 
         stage('Deploy to MyMavenRepo') {
             steps {
-                script {
+
 
                     bat './gradlew publish'
-                }
+
             }
         }
 
