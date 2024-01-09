@@ -8,6 +8,7 @@ pipeline {
                     bat './gradlew test'
                     archiveArtifacts 'build/libs/*.jar'
                     bat './gradlew javadoc'
+                    junit 'build/test-results/test/*.xml'
                 }
             }
         }
@@ -61,5 +62,5 @@ pipeline {
         }
     }
 
-    
+
 }
