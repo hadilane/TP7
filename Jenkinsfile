@@ -46,8 +46,8 @@ pipeline {
         stage('Deploy to MyMavenRepo') {
             steps {
                 script {
-                    // Assuming Maven is installed and in the system PATH
-                    bat 'mvn deploy'
+
+                    bat './gradlew publish'
                 }
             }
         }
